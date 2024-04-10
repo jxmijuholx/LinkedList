@@ -155,7 +155,7 @@ Linkitetyt listat voivat kasvaa tai kutistua dynaamisesti, koska muistin varaami
 3. Joustavuus:
 Linkitetyt listat voidaan helposti järjestää uudelleen ja muokata ilman, että tarvitaan jatkuvaa muistilohkoa.
 
-### Haitat
+### Heikkoudet
 
 1. Satunnainen pääsy:
 Toisin kuin taulukot, linkitetyt listat eivät salli suoraa pääsyä elementteihin indeksin perusteella. Tietyn solmun saavuttaminen vaatii listan läpikäynnin.
