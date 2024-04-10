@@ -16,7 +16,7 @@ ymmärrän mikä linkitetty lista on, miten sitä käsitellään, mihin sitä k�
 sekä kaikkein tärkeimpänä haluaisin tehdä tästä raportista sellaisen, että
 tämän lukija ymmärtäisi myös kyseisen aiheen teorian.
 
-Tämä raportti toimii ikään kuin oppimispäiväkirjana itselleni 
+Tämä raportti toimii ikään kuin oppimispäiväkirjana itselleni
 sekä toivottavasti samalla oppimisen lähteenä muille.
 
 # 2. Linkitetyn listan teoriaa
@@ -46,6 +46,7 @@ Listan elementit ovat yhteydessä osoittimien avulla
 Eli tältä yksi solmu eli node voisi näyttää koodilla:
 
 Singly linked list
+
 C
 ```
   struct solmu{
