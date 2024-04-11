@@ -43,47 +43,7 @@ Listan elementit ovat yhteydessä osoittimien avulla
           Solmu            Solmu              Solmu
     [data|osoite] <->  [data|osoite] <->  [data|osoite]
 
-Eli tältä yksi solmu eli node voisi näyttää koodilla:
-
-Singly linked list
-
-C
-```
-  struct solmu{
-    int data;
-    Struct solmu *seuraavan_osoite;
-  };
-```
-
-TypeScript
-```
-  interface Solmu<T>{
-    data: <T>,
-    seuraava: Solmu<T> | undefined
-  }
-```
-
-Doubly linked list
-
-C
-```
-  struct Solmu{
-    int data;
-    Struct Solmu *seuraavan_osoite;
-    Struct Solmu *edellisen_osoite;
-  };
-```
-
-TypeScript
-```
-  interface Solmu<T>{
-    data: <T>,
-    seuraava: Solmu<T> | undefined
-    edellinen: Solmu<T> | undefined
-  }
-```
-
-Linkitettyä listoja on myös muunlaisia, mutta työ paisuisi ehkä liian isoksi,
+Linkitettyjä listoja on myös muunlaisia, mutta työ paisuisi ehkä liian isoksi,
 jos alkaisimme käymään mm. circular linked listaa läpi.
 
 ## ArrayList vs LinkedList
@@ -163,9 +123,56 @@ Toisin kuin taulukot, linkitetyt listat eivät salli suoraa pääsyä elementtei
 2. Lisämuisti:
 Linkitetyt listat vaativat lisämuistia osoittimien tallentamiseksi verrattuna taulukoihin.
 
-# 3. Toteutus
+# 3. Toteutus w/ TypeScript
 
 ## Singly linked list
+
+Opettajan toiveen mukaan lähdin toteuttamaan linkitetettyä listaa TypeScriptin tyypitystä käyttäen.
+Hetki piti kaivella dokumentaatiota, jotta ymmärsin miten se toimii. Kun ensiksi lähtee toteuttamaan
+tätä tietorakennetta pitänee opetella, miten yksi solmu eli node toteutetaan.
+
+Tiedämme sillä olevan kaksi arvoa yksisuuntaisessa linkitetyssä listassa:
+1. Arvo
+2. Seuraavan solmun osoite
+
+Kerran se vaatii kahta arvoa yhteen "muuttujaan" niin voimme käyttää TypeScriptin interfacea.
+
+interface Solmu {
+
+}
+
+ja tähän voidaan lisätä vielä tyypitys
+
+interface Solmu<T> {
+
+}
+
+Eli tässä määrittelen rajapinnan, joka ottaa yhden tyyppiparametrin.
+- Tyyppiparametri edustaa solmun arvoa ja se voi olla mikä tahansa tyyppi, kuten
+number, string, boolean, enum ja array.
+- Eli linkitetyn listan arvon tyypin määrittelee käyttäjä.
+- Sitten meidän pitää vain täyttää solmu sen sisällöllä:
+
+interface Solmu<T> {
+    arvo : T,
+    seuraava : Solmu<T> | undefined
+}
+- Arvo on tyyppiä <T>
+- Seuraava on arvoa Solmu<T> TAI undefined, koska kyseinen solmu voi olla listan viimeinen!
+> Viimeisellä ei ole seuraavaa
+
+Nyt kun olemme tehneet tietotyypin Solmu, voimme rakentaa yhdensuuntaisen linkitetyn listan.
+
+Ensimmäisenä ajatuksena tulee tehdä luokka 'LinkitettyLista', jotta voimme koodata sen
+sisälle tarvittavat operaatiot. Näin teemme linkitetystä listasta uudelleen käytettävän.
+Tai niin mä ainaki luulisin :D
+
+Määritellään 'linkitetty lista' -luokka:
+
+class LinkitettyLista<T>{
+
+}
+
 
 ## Doubly linked list
 
@@ -179,5 +186,5 @@ Linkitetyt listat vaativat lisämuistia osoittimien tallentamiseksi verrattuna t
 
 ## Maximum twin sum of linked list
 
-# 5. Lähteet
+# 6. Lähteet
 
