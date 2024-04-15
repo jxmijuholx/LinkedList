@@ -4,7 +4,7 @@
 ## 2. [Linkitetyn listan teoriaa](#2-linkitetyn-listan-teoriaa)
 ## 3. [Toteutus](#3-toteutus)
 ## 4. [LeetCode](#4leetcode)
-## 5. [Loppusanat](#5-loppusanat)
+## 5. [Lähteet](#5-lähteet)
 
 
 # 1. Johdanto
