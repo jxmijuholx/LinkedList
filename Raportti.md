@@ -3,7 +3,7 @@
 ## 1. [Johdanto](#johdanto)
 ## 2. [Linkitetyn listan teoriaa](#2-linkitetyn-listan-teoriaa)
 ## 3. [Toteutus](#3-toteutus)
-## 4. [Tutkimus](#4-tutkimus)
+## 4. [Tutkimista](#4-tutkimus)
 ## 5. [LeetCode](#5-leetcode)
 ## 6. [Lähteet](#6-lähteet)
 
@@ -583,7 +583,17 @@ Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:
 3
 ```
 
-# 4. Leetcode
+# 4. Tutkimista
+
+## Miksi ja mitä tutkitaan?
+
+## Tutkimusaineisto
+
+## Tutkimuksen toteutus
+
+## Tutkimuksen tulokset
+
+# 5. Leetcode
 
 ## Delete a middle node of a linked list
 
@@ -593,5 +603,5 @@ Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:
 
 ## Maximum twin sum of linked list
 
-# 5. Lähteet
+# 6. Lähteet
 
