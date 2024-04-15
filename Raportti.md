@@ -592,5 +592,5 @@ Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:
 
 ## Maximum twin sum of linked list
 
-# 6. Lähteet
+# 5. Lähteet
 
