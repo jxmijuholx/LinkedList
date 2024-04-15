@@ -464,8 +464,6 @@ export default class DoublyLinkedList<T> {
     }
 }
 
-´´´
-
 ## Testausta
 
 Nyt kun olemme toteuttaneet yksisuuntaiset ja kaksisuuntaisen linkitetyn listan,
@@ -543,13 +541,13 @@ console.log('Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:');
 for (let i = 0; i < doublyLinkedList.length; i++) {
     console.log(doublyLinkedList.get(i));
 }
-´´´
+
 
 Compiletaan main.ts komennolla tsc main.ts
 Ajetaan ohjelma komennolla node main.js
 Ja tuloste on seuraava:
 
-´´´
+
 Testataan LinkitettyLista:
 Linkitetty lista:
 0
@@ -581,7 +579,7 @@ Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:
 Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:
 0
 3
-´´´
+
 
 # 4. Leetcode
 
