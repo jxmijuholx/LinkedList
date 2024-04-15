@@ -137,15 +137,19 @@ Tiedämme sillä olevan kaksi arvoa yksisuuntaisessa linkitetyssä listassa:
 
 Kerran se vaatii kahta arvoa yhteen "muuttujaan" niin voimme käyttää TypeScriptin interfacea.
 
+´´´
 interface Solmu {
 
 }
+´´´
 
 ja tähän voidaan lisätä vielä tyypitys
 
+´´´
 interface Solmu<T> {
 
 }
+´´´
 
 Eli tässä määrittelen rajapinnan, joka ottaa yhden tyyppiparametrin.
 - Tyyppiparametri edustaa solmun arvoa ja se voi olla mikä tahansa tyyppi, kuten
@@ -153,10 +157,12 @@ number, string, boolean, enum ja array.
 - Eli linkitetyn listan arvon tyypin määrittelee käyttäjä.
 - Sitten meidän pitää vain täyttää solmu sen sisällöllä:
 
+´´´
 interface Solmu<T> {
     arvo : T,
     seuraava : Solmu<T> | undefined
 }
+´´´
 - Arvo on tyyppiä <T>
 - Seuraava on arvoa Solmu<T> TAI undefined, koska kyseinen solmu voi olla listan viimeinen!
 > Viimeisellä ei ole seuraavaa
@@ -169,10 +175,11 @@ Tai niin mä ainaki luulisin :D
 
 Määritellään 'linkitetty lista' -luokka:
 
+´´´
 export default class LinkitettyLista<T>{
 
 }
-
+´´´
 Seuraavaksi koodataan listaan seuraavat operaatiot:
 - Lisää listan alkuun
 - Lisää annettuun indexiin
@@ -303,32 +310,33 @@ export default class LinkitettyLista<T> {
         return current!.arvo;
     }
 }
-
-Seuraavaksi päästäänkin tekemään kaksisuuntaista linkitettyä listaa!
 ´´´
+Seuraavaksi päästäänkin tekemään kaksisuuntaista linkitettyä listaa!
 
 ## Doubly linked list
 
 Aloitetaan sillä, että todetaan suomenkielen olevan hölmöä tässä kontekstissa, joten toteutetaan Doubly linked list englanniksi. :)
 
 Yksi node voisi näyttää tältä:
-
+´´´
 interface Node<T> {
     value : T,
     next : Solmu<T> | undefined,
     previous : Solmu<T> | undefined
 }
-
+´´´
 Paitsi, että TypeScript ei anna käyttää sanaa Node, joten muutetaan se täksi:
 
+´´´
 interface ListNode<T> {
     value: T,
     next: ListNode<T> | undefined,
     prev: ListNode<T> | undefined
 }
+´´´
 
 Ja määritellään luokka DoublyLinkedList.ts ja lisätään sinne 'apuvälineet'
-
+´´´
 export default class DoublyLinkedList<T> {
     public head: ListNode<T> | undefined;
     public tail: ListNode<T> | undefined;
@@ -340,7 +348,7 @@ export default class DoublyLinkedList<T> {
         this.length = 0;
     }
 }
-
+´´´
 Ja sitten lisätään samat operaatiot kuin Singly linked listissä:
 
 ´´´
@@ -541,6 +549,7 @@ Compiletaan main.ts komennolla tsc main.ts
 Ajetaan ohjelma komennolla node main.js
 Ja tuloste on seuraava:
 
+´´´
 Testataan LinkitettyLista:
 Linkitetty lista:
 0
@@ -572,6 +581,7 @@ Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:
 Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:
 0
 3
+´´´
 
 # 4. Leetcode
 
