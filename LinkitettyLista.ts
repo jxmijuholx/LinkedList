@@ -4,7 +4,7 @@ interface Solmu<T> {
 }
 
 export default class LinkitettyLista<T> {
-    public pää: Solmu<T> | undefined;
+    private pää: Solmu<T> | undefined;
     public length: number;
 
     constructor() {

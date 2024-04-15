@@ -169,7 +169,7 @@ Tai niin mä ainaki luulisin :D
 
 Määritellään 'linkitetty lista' -luokka:
 
-class LinkitettyLista<T>{
+export default class LinkitettyLista<T>{
 
 }
 
@@ -303,9 +303,275 @@ export default class LinkitettyLista<T> {
         return current!.arvo;
     }
 }
+
+Seuraavaksi päästäänkin tekemään kaksisuuntaista linkitettyä listaa!
 ´´´
 
 ## Doubly linked list
+
+Aloitetaan sillä, että todetaan suomenkielen olevan hölmöä tässä kontekstissa, joten toteutetaan Doubly linked list englanniksi. :)
+
+Yksi node voisi näyttää tältä:
+
+interface Node<T> {
+    value : T,
+    next : Solmu<T> | undefined,
+    previous : Solmu<T> | undefined
+}
+
+Paitsi, että TypeScript ei anna käyttää sanaa Node, joten muutetaan se täksi:
+
+interface ListNode<T> {
+    value: T,
+    next: ListNode<T> | undefined,
+    prev: ListNode<T> | undefined
+}
+
+Ja määritellään luokka DoublyLinkedList.ts ja lisätään sinne 'apuvälineet'
+
+export default class DoublyLinkedList<T> {
+    public head: ListNode<T> | undefined;
+    public tail: ListNode<T> | undefined;
+    public length: number;
+
+    constructor() {
+        this.head = undefined;
+        this.tail = undefined;
+        this.length = 0;
+    }
+}
+
+Ja sitten lisätään samat operaatiot kuin Singly linked listissä:
+
+´´´
+export default class DoublyLinkedList<T> {
+    private head: ListNode<T> | undefined;
+    private tail: ListNode<T> | undefined;
+    public length: number;
+
+    constructor() {
+        this.head = undefined;
+        this.length = 0;
+        this.tail = undefined;
+    }
+
+    // Lisätään uusi solmu listan alkuun
+    prepend(value: T): void {
+        const node: ListNode<T> = { value: value, next: undefined, prev: undefined };
+        if (!this.head) {
+            this.head = this.tail = node;
+        } else {
+            node.next = this.head;
+            this.head.prev = node;
+            this.head = node;
+        }
+        this.length++;
+    }
+
+    // Lisää uuden solmun annettuun indeksiin
+    insertAt(value: T, index: number): void {
+        if (index > this.length) {
+            throw new Error("Index out of range");
+        } else if (index === this.length) {
+            this.append(value);
+            return;
+        } else if (index === 0) {
+            this.prepend(value);
+            return;
+        }
+        let curr = this.head;
+
+        for (let i = 0; curr && i < index; i++) {
+            curr = curr.next!;
+        }
+
+        const node: ListNode<T> = { value: value, next: curr, prev: curr!.prev };
+        curr!.prev!.next = node;
+        curr!.prev = node;
+
+        this.length++;
+    }
+
+    // Lisää uusi solmu listan loppuun
+    append(value: T): void {
+        const node: ListNode<T> = { value: value, next: undefined, prev: undefined };
+        if (!this.head) {
+            this.head = this.tail = node;
+        } else {
+            node.prev = this.tail;
+            this.tail!.next = node;
+            this.tail = node;
+        }
+        this.length++;
+    }
+
+    // Poista solmu
+    remove(value: T): T | void {
+        let curr = this.head;
+        while (curr) {
+            if (curr.value === value) {
+                if (curr.prev) curr.prev.next = curr.next;
+                if (curr.next) curr.next.prev = curr.prev;
+                if (curr === this.head) this.head = curr.next;
+                if (curr === this.tail) this.tail = curr.prev;
+                this.length--;
+                return curr.value;
+            }
+            curr = curr.next;
+        }
+        return undefined;
+    }
+
+    // Poista solmu annetusta indeksistä
+    removeAt(index: number): void {
+        if (index < 0 || index >= this.length) {
+            return;
+        }
+        if (index === 0) {
+            this.head = this.head?.next || undefined;
+        } else {
+            let prev = this.head;
+            let curr = prev?.next;
+            for (let i = 1; curr && i < index; i++) {
+                prev = curr;
+                curr = curr.next;
+            }
+            if (curr) {
+                prev!.next = curr.next;
+            }
+        }
+        this.length--;
+    }
+
+    // Hae solmu annetusta indeksistä
+    get(index: number): T | void {
+        if (index < 0 || index >= this.length) {
+            return;
+        }
+        let curr = this.head;
+        for (let i = 0; curr && i < index; i++) {
+            curr = curr.next;
+        }
+        return curr?.value;
+    }
+}
+
+´´´
+
+## Testausta
+
+Nyt kun olemme toteuttaneet yksisuuntaiset ja kaksisuuntaisen linkitetyn listan,
+meidän varmaan pitäisi testata niiden toimivuus...
+
+Luodaan main.ts ja lisätään siihen testi case jokaiselle metodille, jotta saadaan tietää
+toimiiko toteutukseni vai ei.
+
+´´´
+import DoublyLinkedList from './DoublyLinkedList';
+import LinkitettyLista from './LinkitettyLista';
+
+// Testataan LinkitettyLista
+console.log('Testataan LinkitettyLista:');
+const linkitettyLista = new LinkitettyLista<number>();
+
+// Lisätään alkioita listan alkuun
+linkitettyLista.prepend(2);
+linkitettyLista.prepend(1);
+linkitettyLista.prepend(0);
+
+// Tulostetaan alkuperäinen lista
+console.log('Linkitetty lista:');
+for (let i = 0; i < linkitettyLista.length; i++) {
+    console.log(linkitettyLista.get(i));
+}
+
+// Lisätään alkio keskelle listaa
+linkitettyLista.insertAt(1.5, 2);
+
+// Tulostetaan päivitetty lista
+console.log('Päivitetty linkitetty lista:');
+for (let i = 0; i < linkitettyLista.length; i++) {
+    console.log(linkitettyLista.get(i));
+}
+
+// Testataan DoublyLinkedList
+console.log('\nTestataan DoublyLinkedList:');
+const doublyLinkedList = new DoublyLinkedList<number>();
+
+// Lisää alkioita listan alkuun
+doublyLinkedList.prepend(2);
+doublyLinkedList.prepend(1);
+doublyLinkedList.prepend(0);
+
+// Tulostetaan alkuperäinen lista
+console.log('Kaksoissuuntainen linkitetty lista:');
+for (let i = 0; i < doublyLinkedList.length; i++) {
+    console.log(doublyLinkedList.get(i));
+}
+
+// Lisätään alkio loppuun
+doublyLinkedList.append(3);
+
+// Tulostetaan päivitetty lista
+console.log('Päivitetty kaksoissuuntainen linkitetty lista:');
+for (let i = 0; i < doublyLinkedList.length; i++) {
+    console.log(doublyLinkedList.get(i));
+}
+
+// Poistetaan alkio keskeltä listaa
+doublyLinkedList.remove(1);
+
+// Tulostetaan päivitetty lista
+console.log('Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:');
+for (let i = 0; i < doublyLinkedList.length; i++) {
+    console.log(doublyLinkedList.get(i));
+}
+
+// Poistetaan alkio annetusta indeksistä
+doublyLinkedList.removeAt(1);
+
+// Tulostetaan päivitetty lista
+console.log('Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:');
+for (let i = 0; i < doublyLinkedList.length; i++) {
+    console.log(doublyLinkedList.get(i));
+}
+´´´
+
+Compiletaan main.ts komennolla tsc main.ts
+Ajetaan ohjelma komennolla node main.js
+Ja tuloste on seuraava:
+
+Testataan LinkitettyLista:
+Linkitetty lista:
+0
+1
+2
+Päivitetty linkitetty lista:
+0
+1
+1.5
+2
+
+Testataan DoublyLinkedList:
+Kaksoissuuntainen linkitetty lista:
+0
+1
+2
+
+Päivitetty kaksoissuuntainen linkitetty lista:
+0
+1
+2
+3
+
+Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:
+0
+2
+3
+
+Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:
+0
+3
 
 # 4. Leetcode
 
