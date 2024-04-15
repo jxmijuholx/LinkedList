@@ -3,8 +3,9 @@
 ## 1. [Johdanto](#johdanto)
 ## 2. [Linkitetyn listan teoriaa](#2-linkitetyn-listan-teoriaa)
 ## 3. [Toteutus](#3-toteutus)
-## 4. [LeetCode](#4leetcode)
-## 5. [Lähteet](#5-lähteet)
+## 4. [Tutkimus](#4-tutkimus)
+## 5. [LeetCode](#5-leetcode)
+## 6. [Lähteet](#6-lähteet)
 
 
 # 1. Johdanto
