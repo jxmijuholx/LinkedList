@@ -585,13 +585,23 @@ Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:
 
 # 4. Tutkimista
 
-## Miksi ja mitä tutkitaan?
+## Mitä tutkitaan?
 
-## Tutkimusaineisto
+Tässä osiossa keskitymme vertailemaan arrayn ja linked listan suorituskykyä erityisesti järjestämisen ja lajittelun osalta. Arrayt ja linked listat ovat kaksi yleisintä tietorakennetta ohjelmoinnissa, ja niiden välillä on usein valittava tilanteen ja tarpeen mukaan. Tavoitteenamme on selvittää, millaisia eroja ja yhtäläisyyksiä näiden kahden rakenteen välillä on järjestämistoimintojen suorituskyvyssä.
 
-## Tutkimuksen toteutus
+## Tutkimuksen tavoitteet
 
-## Tutkimuksen tulokset
+Tutkimuksen keskeisenä tavoitteena on ymmärtää, miten array ja linked list suoriutuvat erilaisista järjestämistehtävistä. Haluamme selvittää, kumpi rakenne on tehokkaampi eri tilanteissa, ja tunnistaa tilanteet, joissa toinen rakenne ylittää toisen suorituskyvyssä. Tämä auttaa kehittäjiä tekemään parempia päätöksiä tietorakenteiden valinnassa ohjelmoinnin eri konteksteissa.
+
+## Testiaineiston esittely
+
+Tutkimuksen testiaineistona käytetään Kaggle.com-sivustolta peräisin olevaa 'Emotions'-datasettiä. Tämä datasetti koostuu englanninkielisistä Twitter-viesteistä, jotka on linkitetty erilaisiin tunnetiloihin. Datasetin koko on noin 417 tuhatta uniikkia Twitter-viestiä, joilla on omat tunnetilansa. Tämä tarjoaa monipuolisen ja merkityksellisen testiympäristön tarkastella linkitettyjen listojen ja taulukoiden suorituskykyä erilaisissa operaatioissa.
+
+## Testisuunnitelma
+
+## Toteutus
+
+## Tulokset ja niiden tulkinta
 
 # 5. Leetcode
 
