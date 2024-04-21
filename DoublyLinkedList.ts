@@ -5,8 +5,8 @@ interface ListNode<T> {
 }
 
 export default class DoublyLinkedList<T> {
-    private head: ListNode<T> | undefined;
-    private tail: ListNode<T> | undefined;
+    public head: ListNode<T> | undefined;
+    public tail: ListNode<T> | undefined;
     public length: number;
 
     constructor() {
