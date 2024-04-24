@@ -585,25 +585,85 @@ Päivitetty kaksoissuuntainen linkitetty lista poiston jälkeen:
 
 # 4. Tutkimista
 
-## Mitä tutkitaan?
+## Alustusta 
 
-Tässä osiossa keskitymme vertailemaan arrayn ja doubly linked listan suorituskykyä erityisesti järjestämisen ja lajittelun osalta. Arrayt ja linked listat ovat kaksi yleisintä tietorakennetta ohjelmoinnissa, ja niiden välillä on usein valittava tilanteen ja tarpeen mukaan. Tavoitteenamme on selvittää, millaisia eroja ja yhtäläisyyksiä näiden kahden rakenteen välillä on järjestämistoimintojen suorituskyvyssä.
+Aion vertailla linkitetyn listan ja taulukon suorituskykyä. Vertailen niitä mittaamalla aikaa performance.now() -kirjaston avulla. Suoritan emotions.csv tiedostolle erilaisia operaatioita kuten järjesteylä, hakua, lisäämistä ja poistamista. Emotions.csv on aineisto, joka sisältää noin 400 tuhatta erilaista palaa dataa ja jokaisella palalla on id, twiitti ja numero, joka vastaa jotain tunnetta, joka esiintyy twiitissä. Eli aineisto on jo suhteellisen painava ja toivon näkeväni koneeni hieman hidastuvan testejä suorittaessa.
 
-## Tutkimuksen tavoitteet
+## Hypoteesi
 
-Tutkimuksen keskeisenä tavoitteena on ymmärtää, miten array ja linked list suoriutuvat erilaisista järjestämistehtävistä. Haluamme selvittää, kumpi rakenne on tehokkaampi eri tilanteissa, ja tunnistaa tilanteet, joissa toinen rakenne ylittää toisen suorituskyvyssä. Tämä auttaa kehittäjiä tekemään parempia päätöksiä tietorakenteiden valinnassa ohjelmoinnin eri konteksteissa.
-
-## Testiaineiston esittely
-
-Tutkimuksen testiaineistona käytetään Kaggle.com-sivustolta peräisin olevaa 'Emotions'-datasettiä. Tämä datasetti koostuu englanninkielisistä Twitter-viesteistä, jotka on linkitetty erilaisiin tunnetiloihin. Datasetin koko on noin 417 tuhatta uniikkia Twitter-viestiä, joilla on omat tunnetilansa. Tämä tarjoaa monipuolisen ja merkityksellisen testiympäristön tarkastella linkitettyjen listojen ja taulukoiden suorituskykyä erilaisissa operaatioissa.
+Veikkaisin, että taulukko suoriutuu vielä tämän kokoisella aineistolla lähes jokaisessa tapauksessa paremmin kuin linkitetty lista, sillä JavaScriptin taulukko omn dynaaminen ja sen takia erittäin nopea. Mutta, toivon kuitenkin, että joissain tapauksissa linkitetty lista pääsisi edes lähelle taulukon suorituskykyä. Haluan myös nähdä, kuinka paljon huonommin linkitetty lista mahdollisesti suoriutuu niistä operaatioita, joista olettaisimmekin sen suorituvan hitaasti.
 
 ## Testisuunnitelma
 
+#### Aion testata seuraavia asioita (Array vs Linked list):
+- Järjestäminen id:n mukaan
+- Etsiä kaikki twiitit, joissa esiintyy sana 'love'
+- Lisääminen eteen
+- Lisääminen perälle
+- Lisääminen keskelle
+- Edestä poisto
+- Perältä poisto
+- Keskeltä poisto
+- Ylimääräiset, ei niin tärkeät, testit
+
+ Aion mitata siis näiden operaatioiden suorittamiseen kuluvaa aikaa ja todennäköisesti käytän vain console logia tulosten näyttämiseen.
 
 
 ## Toteutus
 
+#### Koodi jokaiseen testiin:
+
+1. Perään lisääminen ja sieltä poisto
+```
+
+```
+2. Etsi 'love'
+```
+
+```
+3. Eteen lisääminen ja sieltä poisto
+```
+
+```
+4. Järjestä id:n mukaan
+```
+
+```
+5. Lisää ja poista keskeltä
+```
+
+```
+6. Muuta pelleilyä
+```
+
+```
+
 ## Tulokset ja niiden tulkinta
+
+1. Perään lisääminen ja sieltä poisto
+```
+
+```
+2. Etsi 'love'
+```
+
+```
+3. Eteen lisääminen ja sieltä poisto
+```
+
+```
+4. Järjestä id:n mukaan
+```
+
+```
+5. Lisää ja poista keskeltä
+```
+
+```
+6. Muuta pelleilyä
+```
+
+```
 
 # 5. Leetcode
 
