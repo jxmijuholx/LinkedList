@@ -35,10 +35,8 @@ function insertAtBeginningArray(data: Emotion[], numInsertions: number): number 
     return endTime - startTime;
 }
 
-// Load data (assuming data is already loaded)
-
 // Number of insertions for the test
-const numInsertions = 10000;
+const numInsertions = 200000;
 
 // Measure time for inserting at the beginning of a Doubly Linked List
 const timeLinkedList = insertAtBeginningLinkedList(data, numInsertions);

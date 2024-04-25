@@ -3,7 +3,6 @@ import { performance } from 'perf_hooks';
 import DoublyLinkedList from '../DoublyLinkedList';
 import { Emotion } from './Emotion';
 
-// Create a doubly linked list from the provided array of emotions
 function createDoublyLinkedList(data: Emotion[]): DoublyLinkedList<Emotion> {
     const linkedList = new DoublyLinkedList<Emotion>();
     data.forEach(emotion => linkedList.append(emotion));
@@ -51,7 +50,6 @@ function testArray(data: Emotion[]): void {
     console.log(`Time taken for deletion: ${deletionTime} milliseconds`);
 }
 
-// Main function to run the tests
 function main(): void {
     const rawData = fs.readFileSync('emotions.csv', 'utf-8');
     const data: Emotion[] = rawData
@@ -62,9 +60,7 @@ function main(): void {
             return { id: parseInt(id), tweet, emotion: parseInt(emotion) };
         });
 
-    // Run the tests
     testDoublyLinkedList(data);
     testArray(data);
 }
-// Run the main function
 main();

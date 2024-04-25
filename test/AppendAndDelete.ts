@@ -3,7 +3,7 @@ import { performance } from 'perf_hooks';
 import DoublyLinkedList from '../DoublyLinkedList';
 import { Emotion } from './Emotion';
 
-// Load data from emotions.csv
+
 const rawData: string = fs.readFileSync('emotions.csv', 'utf-8');
 const data: Emotion[] = rawData
     .split('\n')
@@ -32,14 +32,14 @@ function addTweetsToArray(data: Emotion[]): [Emotion[], number] {
     return [dataArray, timeTaken];
 }
 
-// Function to delete all tweets containing the word 'love' using doubly linked list and measure time
-function deleteLoveTweetsLinkedList(data: Emotion[]): number {
+// Function to delete all emotions with id 3 using doubly linked list and measure time
+function deleteIdThreeTweetsLinkedList(data: Emotion[]): number {
     const [tweetListLinkedList, addTime] = addTweetsToLinkedList(data);
     const startTime = performance.now();
 
     let curr = tweetListLinkedList.head;
     while (curr) {
-        if (curr.value.tweet.toLowerCase().includes('love')) {
+        if (curr.value.id === 3) {
             const next = curr.next;
             tweetListLinkedList.remove(curr.value);
             curr = next;
@@ -53,12 +53,12 @@ function deleteLoveTweetsLinkedList(data: Emotion[]): number {
     return addTime + deleteTime;
 }
 
-// Function to delete all tweets containing the word 'love' using array and measure time
-function deleteLoveTweetsArray(data: Emotion[]): number {
+// Function to delete all emotions with id 3 using array and measure time
+function deleteIdThreeTweetsArray(data: Emotion[]): number {
     const [dataArray, addTime] = addTweetsToArray(data);
     const startTime = performance.now();
 
-    const filteredArray = dataArray.filter(emotion => !emotion.tweet.toLowerCase().includes('love'));
+    const filteredArray = dataArray.filter(emotion => emotion.id !== 3);
 
     const endTime = performance.now();
     const deleteTime = endTime - startTime;
@@ -74,9 +74,9 @@ const [array, addArrayTime] = addTweetsToArray(data);
 console.log(`Time taken for adding to Array: ${addArrayTime} milliseconds`);
 
 // Measure time for deleting from the doubly linked list
-const deleteLinkedListTime = deleteLoveTweetsLinkedList(data);
+const deleteLinkedListTime = deleteIdThreeTweetsLinkedList(data);
 console.log(`Time taken for deletion from Doubly Linked List: ${deleteLinkedListTime} milliseconds`);
 
 // Measure time for deleting from the array
-const deleteArrayTime = deleteLoveTweetsArray(data);
+const deleteArrayTime = deleteIdThreeTweetsArray(data);
 console.log(`Time taken for deletion from Array: ${deleteArrayTime} milliseconds`);
