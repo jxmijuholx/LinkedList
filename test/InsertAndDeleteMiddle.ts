@@ -9,7 +9,6 @@ function createDoublyLinkedList(data: Emotion[]): DoublyLinkedList<Emotion> {
     return linkedList;
 }
 
-// Test insertion and deletion in the middle of a doubly linked list
 function testDoublyLinkedList(data: Emotion[]): void {
     console.log('Testing insertion and deletion in the middle of a Doubly Linked List:');
     const linkedList = createDoublyLinkedList(data);

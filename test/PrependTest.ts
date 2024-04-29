@@ -3,7 +3,6 @@ import { performance } from 'perf_hooks';
 import DoublyLinkedList from '../DoublyLinkedList';
 import { Emotion } from './Emotion';
 
-// Load data from emotions.csv
 const rawData: string = fs.readFileSync('emotions.csv', 'utf-8');
 const data: Emotion[] = rawData
     .split('\n')
@@ -13,7 +12,6 @@ const data: Emotion[] = rawData
         return { id: parseInt(id), tweet, emotion: parseInt(emotion) };
     });
 
-// Function to insert elements at the beginning of a Doubly Linked List and measure time
 function insertAtBeginningLinkedList(data: Emotion[], numInsertions: number): number {
     const startTime = performance.now();
     const list = new DoublyLinkedList<Emotion>();
@@ -24,7 +22,6 @@ function insertAtBeginningLinkedList(data: Emotion[], numInsertions: number): nu
     return endTime - startTime;
 }
 
-// Function to insert elements at the beginning of an Array and measure time
 function insertAtBeginningArray(data: Emotion[], numInsertions: number): number {
     const startTime = performance.now();
     const array: Emotion[] = [];
@@ -35,18 +32,14 @@ function insertAtBeginningArray(data: Emotion[], numInsertions: number): number 
     return endTime - startTime;
 }
 
-// Number of insertions for the test
 const numInsertions = 200000;
 
-// Measure time for inserting at the beginning of a Doubly Linked List
 const timeLinkedList = insertAtBeginningLinkedList(data, numInsertions);
 console.log(`Time taken for inserting at the beginning of Doubly Linked List: ${timeLinkedList} milliseconds`);
 
-// Measure time for inserting at the beginning of an Array
 const timeArray = insertAtBeginningArray(data, numInsertions);
 console.log(`Time taken for inserting at the beginning of Array: ${timeArray} milliseconds`);
 
-// Compare the times
 if (timeLinkedList < timeArray) {
     console.log('Doubly Linked List performed better for inserting at the beginning.');
 } else if (timeLinkedList > timeArray) {
