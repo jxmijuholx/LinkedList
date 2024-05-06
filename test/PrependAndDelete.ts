@@ -40,10 +40,32 @@ console.log(`Time taken for inserting at the beginning of Doubly Linked List: ${
 const timeArray = insertAtBeginningArray(data, numInsertions);
 console.log(`Time taken for inserting at the beginning of Array: ${timeArray} milliseconds`);
 
-if (timeLinkedList < timeArray) {
-    console.log('Doubly Linked List performed better for inserting at the beginning.');
-} else if (timeLinkedList > timeArray) {
-    console.log('Array performed better for inserting at the beginning.');
-} else {
-    console.log('Both performed equally for inserting at the beginning.');
+function removeFromBeginningLinkedList(data: Emotion[], numRemovals: number): number {
+    const list = new DoublyLinkedList<Emotion>();
+    data.forEach(emotion => list.append(emotion));
+    const startTime = performance.now();
+    for (let i = 0; i < numRemovals; i++) {
+        list.removeAt(0);
+    }
+    const endTime = performance.now();
+    return endTime - startTime;
 }
+
+function removeFromBeginningArray(data: Emotion[], numRemovals: number): number {
+    const array = [...data];
+    const startTime = performance.now();
+    for (let i = 0; i < numRemovals; i++) {
+        array.shift();
+    }
+    const endTime = performance.now();
+    return endTime - startTime;
+}
+
+const numRemovals = 100000;
+
+const timeRemoveLinkedList = removeFromBeginningLinkedList(data, numRemovals);
+console.log(`Time taken for removing from the beginning of Doubly Linked List: ${timeRemoveLinkedList} milliseconds`);
+
+const timeRemoveArray = removeFromBeginningArray(data, numRemovals);
+console.log(`Time taken for removing from the beginning of Array: ${timeRemoveArray} milliseconds`);
+

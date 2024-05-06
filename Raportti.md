@@ -604,7 +604,6 @@ Veikkaisin, että taulukko suoriutuu vielä tämän kokoisella aineistolla lähe
 - Edestä poisto
 - Perältä poisto
 - Keskeltä poisto
-- Ylimääräiset, ei niin tärkeät, testit
 
  Aion mitata siis näiden operaatioiden suorittamiseen kuluvaa aikaa ja todennäköisesti käytän vain console logia tulosten näyttämiseen.
 
@@ -613,13 +612,12 @@ Veikkaisin, että taulukko suoriutuu vielä tämän kokoisella aineistolla lähe
 
 #### Koodi jokaiseen testiin:
 
-1. Perään lisääminen ja sieltä poisto
+### 1. Find by love
 ```
 import * as fs from 'fs';
 import { performance } from 'perf_hooks';
 import DoublyLinkedList from '../DoublyLinkedList';
 import { Emotion } from './Emotion';
-
 
 const rawData: string = fs.readFileSync('emotions.csv', 'utf-8');
 const data: Emotion[] = rawData
@@ -630,194 +628,34 @@ const data: Emotion[] = rawData
         return { id: parseInt(id), tweet, emotion: parseInt(emotion) };
     });
 
-// Function to add all tweets to a Doubly Linked List and measure time
-function addTweetsToLinkedList(data: Emotion[]): [DoublyLinkedList<Emotion>, number] {
-    const startTime = performance.now();
-    const tweetListLinkedList = new DoublyLinkedList<Emotion>();
-    data.forEach(emotion => tweetListLinkedList.append(emotion));
-    const endTime = performance.now();
-    const timeTaken = endTime - startTime;
-    return [tweetListLinkedList, timeTaken];
-}
-
-// Function to add all tweets to an Array and measure time
-function addTweetsToArray(data: Emotion[]): [Emotion[], number] {
-    const startTime = performance.now();
-    const dataArray = [...data];
-    const endTime = performance.now();
-    const timeTaken = endTime - startTime;
-    return [dataArray, timeTaken];
-}
-
-// Function to delete all emotions with id 3 using doubly linked list and measure time
-function deleteIdThreeTweetsLinkedList(data: Emotion[]): number {
-    const [tweetListLinkedList, addTime] = addTweetsToLinkedList(data);
-    const startTime = performance.now();
-
-    let curr = tweetListLinkedList.head;
-    while (curr) {
-        if (curr.value.id === 3) {
-            const next = curr.next;
-            tweetListLinkedList.remove(curr.value);
-            curr = next;
-        } else {
-            curr = curr.next;
-        }
-    }
-
-    const endTime = performance.now();
-    const deleteTime = endTime - startTime;
-    return addTime + deleteTime;
-}
-
-// Function to delete all emotions with id 3 using array and measure time
-function deleteIdThreeTweetsArray(data: Emotion[]): number {
-    const [dataArray, addTime] = addTweetsToArray(data);
-    const startTime = performance.now();
-
-    const filteredArray = dataArray.filter(emotion => emotion.id !== 3);
-
-    const endTime = performance.now();
-    const deleteTime = endTime - startTime;
-    return addTime + deleteTime;
-}
-
-// Measure time for adding to the doubly linked list
-const [linkedList, addLinkedListTime] = addTweetsToLinkedList(data);
-console.log(`Time taken for adding to Doubly Linked List: ${addLinkedListTime} milliseconds`);
-
-// Measure time for adding to the array
-const [array, addArrayTime] = addTweetsToArray(data);
-console.log(`Time taken for adding to Array: ${addArrayTime} milliseconds`);
-
-// Measure time for deleting from the doubly linked list
-const deleteLinkedListTime = deleteIdThreeTweetsLinkedList(data);
-console.log(`Time taken for deletion from Doubly Linked List: ${deleteLinkedListTime} milliseconds`);
-
-// Measure time for deleting from the array
-const deleteArrayTime = deleteIdThreeTweetsArray(data);
-console.log(`Time taken for deletion from Array: ${deleteArrayTime} milliseconds`);
-
-```
-2. Etsi 'love'
-```
-import * as fs from 'fs';
-import { performance } from 'perf_hooks';
-import DoublyLinkedList from '../DoublyLinkedList';
-import { Emotion } from './Emotion';
-
-// Load data from emotions.csv
-const rawData: string = fs.readFileSync('emotions.csv', 'utf-8');
-const data: Emotion[] = rawData
-    .split('\n')
-    .filter((line) => line.trim() !== '')
-    .map((line) => {
-        const [id, tweet, emotion] = line.split(',');
-        return { id: parseInt(id), tweet, emotion: parseInt(emotion) };
-    });
-
-// Function to find tweets containing the word 'love' using doubly linked list
 function findLoveTweetsLinkedList(data: Emotion[]): void {
     console.log('Finding tweets containing the word "love" using Doubly Linked List:');
     const startTime = performance.now();
-
-    // Create a DoublyLinkedList to store love tweets
     const loveTweetsLinkedList = new DoublyLinkedList<Emotion>();
-
-    // Traverse the data array
     data.forEach(emotion => {
         if (emotion.tweet.toLowerCase().includes('love')) {
             loveTweetsLinkedList.append(emotion);
         }
     });
-
     console.log(`Time taken: ${performance.now() - startTime} milliseconds`);
 }
 
-// Function to find tweets containing the word 'love' using array
 function findLoveTweetsArray(data: Emotion[]): void {
     console.log('Finding tweets containing the word "love" using Array:');
     const startTime = performance.now();
-
-    // Create an array to store love tweets
     const loveTweetsArray: Emotion[] = [];
-
-    // Traverse the data array
     data.forEach(emotion => {
         if (emotion.tweet.toLowerCase().includes('love')) {
             loveTweetsArray.push(emotion);
         }
     });
-
     console.log(`Time taken: ${performance.now() - startTime} milliseconds`);
 }
 
-// Run the tests
 findLoveTweetsLinkedList(data);
 findLoveTweetsArray(data);
-
 ```
-3. Eteen lisääminen
-```
-import * as fs from 'fs';
-import { performance } from 'perf_hooks';
-import DoublyLinkedList from '../DoublyLinkedList';
-import { Emotion } from './Emotion';
-
-// Load data from emotions.csv
-const rawData: string = fs.readFileSync('emotions.csv', 'utf-8');
-const data: Emotion[] = rawData
-    .split('\n')
-    .filter((line) => line.trim() !== '')
-    .map((line) => {
-        const [id, tweet, emotion] = line.split(',');
-        return { id: parseInt(id), tweet, emotion: parseInt(emotion) };
-    });
-
-// Function to insert elements at the beginning of a Doubly Linked List and measure time
-function insertAtBeginningLinkedList(data: Emotion[], numInsertions: number): number {
-    const startTime = performance.now();
-    const list = new DoublyLinkedList<Emotion>();
-    for (let i = 0; i < numInsertions; i++) {
-        list.prepend(data[i % data.length]);
-    }
-    const endTime = performance.now();
-    return endTime - startTime;
-}
-
-// Function to insert elements at the beginning of an Array and measure time
-function insertAtBeginningArray(data: Emotion[], numInsertions: number): number {
-    const startTime = performance.now();
-    const array: Emotion[] = [];
-    for (let i = 0; i < numInsertions; i++) {
-        array.unshift(data[i % data.length]);
-    }
-    const endTime = performance.now();
-    return endTime - startTime;
-}
-
-// Number of insertions for the test
-const numInsertions = 200000;
-
-// Measure time for inserting at the beginning of a Doubly Linked List
-const timeLinkedList = insertAtBeginningLinkedList(data, numInsertions);
-console.log(`Time taken for inserting at the beginning of Doubly Linked List: ${timeLinkedList} milliseconds`);
-
-// Measure time for inserting at the beginning of an Array
-const timeArray = insertAtBeginningArray(data, numInsertions);
-console.log(`Time taken for inserting at the beginning of Array: ${timeArray} milliseconds`);
-
-// Compare the times
-if (timeLinkedList < timeArray) {
-    console.log('Doubly Linked List performed better for inserting at the beginning.');
-} else if (timeLinkedList > timeArray) {
-    console.log('Array performed better for inserting at the beginning.');
-} else {
-    console.log('Both performed equally for inserting at the beginning.');
-}
-
-```
-4. Järjestä id:n mukaan
+### 2. Järjestä id:n mukaan
 ```
 import * as fs from 'fs';
 import DoublyLinkedList from '../DoublyLinkedList';
@@ -832,43 +670,32 @@ const data: Emotion[] = rawData
         return { id: parseInt(id), tweet, emotion: parseInt(emotion) };
     });
 
-// Järjestetään koko emotions.csv suurimmasta id:stä pienempään käyttäen doubly linked listiä
 function sortByIDLinkedList(data: Emotion[]): void {
     console.log('Sorting by ID using Doubly Linked List:');
     const startTime = performance.now();
-    
-    // Sort the data array by id in descending order
     data.sort((a, b) => b.id - a.id);
-
-    // Add the sorted data to the linked list
     const linkedList = new DoublyLinkedList<Emotion>();
     data.forEach(emotion => linkedList.prepend(emotion));
-
     const sortedData: Emotion[] = [];
     for (let i = 0; i < data.length; i++) {
         sortedData.push(linkedList.get(i) as Emotion);
     }
-
     console.log(`Time taken: ${performance.now() - startTime} milliseconds`);
 }
 
-// Järjestetään koko emotions.csv suurimmasta id:stä pienempään käyttäen arrayta
 function sortByIDArray(data: Emotion[]): void {
     console.log('Sorting by ID using Array:');
     const startTime = performance.now();
-    
-    // Järjestäminen arrayllä
     data.sort((a, b) => b.id - a.id);
 
     console.log(`Time taken: ${performance.now() - startTime} milliseconds`);
 }
 
-// Aja testi
 sortByIDLinkedList(data);
 sortByIDArray(data);
 
 ```
-5. Lisää ja poista keskeltä
+### 3. Lisää keskelle ja poista keskeltä
 ```
 import * as fs from 'fs';
 import { performance } from 'perf_hooks';
@@ -881,7 +708,6 @@ function createDoublyLinkedList(data: Emotion[]): DoublyLinkedList<Emotion> {
     return linkedList;
 }
 
-// Test insertion and deletion in the middle of a doubly linked list
 function testDoublyLinkedList(data: Emotion[]): void {
     console.log('Testing insertion and deletion in the middle of a Doubly Linked List:');
     const linkedList = createDoublyLinkedList(data);
@@ -938,53 +764,235 @@ function main(): void {
 main();
 
 ```
-6. Muuta pelleilyä
+### 4. Lisää eteen ja poista ensimmäinen elementti
 ```
+import * as fs from 'fs';
+import { performance } from 'perf_hooks';
+import DoublyLinkedList from '../DoublyLinkedList';
+import { Emotion } from './Emotion';
+
+const rawData: string = fs.readFileSync('emotions.csv', 'utf-8');
+const data: Emotion[] = rawData
+    .split('\n')
+    .filter((line) => line.trim() !== '')
+    .map((line) => {
+        const [id, tweet, emotion] = line.split(',');
+        return { id: parseInt(id), tweet, emotion: parseInt(emotion) };
+    });
+
+function insertAtBeginningLinkedList(data: Emotion[], numInsertions: number): number {
+    const startTime = performance.now();
+    const list = new DoublyLinkedList<Emotion>();
+    for (let i = 0; i < numInsertions; i++) {
+        list.prepend(data[i % data.length]);
+    }
+    const endTime = performance.now();
+    return endTime - startTime;
+}
+
+function insertAtBeginningArray(data: Emotion[], numInsertions: number): number {
+    const startTime = performance.now();
+    const array: Emotion[] = [];
+    for (let i = 0; i < numInsertions; i++) {
+        array.unshift(data[i % data.length]);
+    }
+    const endTime = performance.now();
+    return endTime - startTime;
+}
+
+const numInsertions = 200000;
+
+const timeLinkedList = insertAtBeginningLinkedList(data, numInsertions);
+console.log(`Time taken for inserting at the beginning of Doubly Linked List: ${timeLinkedList} milliseconds`);
+
+const timeArray = insertAtBeginningArray(data, numInsertions);
+console.log(`Time taken for inserting at the beginning of Array: ${timeArray} milliseconds`);
+
+function removeFromBeginningLinkedList(data: Emotion[], numRemovals: number): number {
+    const list = new DoublyLinkedList<Emotion>();
+    data.forEach(emotion => list.append(emotion));
+    const startTime = performance.now();
+    for (let i = 0; i < numRemovals; i++) {
+        list.removeAt(0);
+    }
+    const endTime = performance.now();
+    return endTime - startTime;
+}
+
+function removeFromBeginningArray(data: Emotion[], numRemovals: number): number {
+    const array = [...data];
+    const startTime = performance.now();
+    for (let i = 0; i < numRemovals; i++) {
+        array.shift();
+    }
+    const endTime = performance.now();
+    return endTime - startTime;
+}
+
+const numRemovals = 100000;
+
+const timeRemoveLinkedList = removeFromBeginningLinkedList(data, numRemovals);
+console.log(`Time taken for removing from the beginning of Doubly Linked List: ${timeRemoveLinkedList} milliseconds`);
+
+const timeRemoveArray = removeFromBeginningArray(data, numRemovals);
+console.log(`Time taken for removing from the beginning of Array: ${timeRemoveArray} milliseconds`);
+
+
+```
+### 5. Lisää viimeiseksi ja poista viimeinen elementti
+```
+import * as fs from 'fs';
+import { performance } from 'perf_hooks';
+import DoublyLinkedList from '../DoublyLinkedList';
+import { Emotion } from './Emotion';
+
+
+const rawData: string = fs.readFileSync('emotions.csv', 'utf-8');
+const data: Emotion[] = rawData
+    .split('\n')
+    .filter((line) => line.trim() !== '')
+    .map((line) => {
+        const [id, tweet, emotion] = line.split(',');
+        return { id: parseInt(id), tweet, emotion: parseInt(emotion) };
+    });
+
+function addTweetsToLinkedList(data: Emotion[]): [DoublyLinkedList<Emotion>, number] {
+    const startTime = performance.now();
+    const tweetListLinkedList = new DoublyLinkedList<Emotion>();
+    data.forEach(emotion => tweetListLinkedList.append(emotion));
+    const endTime = performance.now();
+    const timeTaken = endTime - startTime;
+    return [tweetListLinkedList, timeTaken];
+}
+
+function addTweetsToArray(data: Emotion[]): [Emotion[], number] {
+    const startTime = performance.now();
+    const dataArray = [...data];
+    const endTime = performance.now();
+    const timeTaken = endTime - startTime;
+    return [dataArray, timeTaken];
+}
+
+function deleteIdThreeTweetsLinkedList(data: Emotion[]): number {
+    const [tweetListLinkedList, addTime] = addTweetsToLinkedList(data);
+    const startTime = performance.now();
+
+    let curr = tweetListLinkedList.head;
+    while (curr) {
+        if (curr.value.id === 3) {
+            const next = curr.next;
+            tweetListLinkedList.remove(curr.value);
+            curr = next;
+        } else {
+            curr = curr.next;
+        }
+    }
+
+    const endTime = performance.now();
+    const deleteTime = endTime - startTime;
+    return addTime + deleteTime;
+}
+
+function deleteIdThreeTweetsArray(data: Emotion[]): number {
+    const [dataArray, addTime] = addTweetsToArray(data);
+    const startTime = performance.now();
+    dataArray.filter(emotion => emotion.id !== 3);
+    const endTime = performance.now();
+    const deleteTime = endTime - startTime;
+    return addTime + deleteTime;
+}
+
+const [linkedList, addLinkedListTime] = addTweetsToLinkedList(data);
+console.log(`Time taken for adding to Doubly Linked List: ${addLinkedListTime} milliseconds`);
+
+const [array, addArrayTime] = addTweetsToArray(data);
+console.log(`Time taken for adding to Array: ${addArrayTime} milliseconds`);
+
+const deleteLinkedListTime = deleteIdThreeTweetsLinkedList(data);
+console.log(`Time taken for deletion from Doubly Linked List: ${deleteLinkedListTime} milliseconds`);
+
+const deleteArrayTime = deleteIdThreeTweetsArray(data);
+console.log(`Time taken for deletion from Array: ${deleteArrayTime} milliseconds`);
 
 ```
 
 ## Tulokset ja niiden tulkinta
 
-1. Perään lisääminen ja sieltä poisto
-```
-Time taken for adding to Doubly Linked List: 23.983334000000013 milliseconds
-Time taken for adding to Array: 10.632042000000013 milliseconds
-Time taken for deletion from Doubly Linked List: 28.469667000000015 milliseconds
-Time taken for deletion from Array: 13.115958999999975 milliseconds
-```
-2. Etsi 'love'
+### 1. Find by love
 ```
 Finding tweets containing the word "love" using Doubly Linked List:
-Time taken: 133.90008400000005 milliseconds
+Time taken: 134.82570900000002 milliseconds
 Finding tweets containing the word "love" using Array:
-Time taken: 129.44154199999997 milliseconds
+Time taken: 128.400417 milliseconds
 ```
-3. Eteen lisääminen
-```
-Time taken for inserting at the beginning of Doubly Linked List: 9.245584000000008 milliseconds
-Time taken for inserting at the beginning of Array: 4974.91575 milliseconds
-Doubly Linked List performed better for inserting at the beginning.
-```
-4. Järjestä id:n mukaan
+Tutkimuksen tulosten perusteella voimme havaita, että Doubly Linked Listin ja taulukon (Array) välillä suoritetut haut, jotka etsivät tweettejä sisältäen sanan "love", ovat melko lähellä toisiaan tehokkuuden suhteen. Taulukko osoittautui hieman nopeammaksi, saavuttaen noin 128.4 millisekuntia, kun taas Doubly Linked Listin suorittama haku vei noin 134.8 millisekuntia.
+
+Tämä pieni ero suorituskyvyssä voi johtua useista tekijöistä, kuten tietorakenteiden sisäisestä toteutuksesta ja siitä, miten ne käsittelevät datan lisäystä ja poistoa. On tärkeää huomata, että tulokset ovat yksittäisten suorituskertojen tuloksia, ja suorituskyky voi vaihdella eri tilanteissa ja syötteissä.
+
+### 2. Järjestä id:n mukaan
 ```
 Sorting by ID using Doubly Linked List:
-Time taken: 260566.770833 milliseconds
+Time taken: 261433.82325000002 milliseconds
 Sorting by ID using Array:
-Time taken: 11.95933299997705 milliseconds
+Time taken: 23.815875000000233 milliseconds
 ```
-5. Lisää ja poista keskeltä
+Tutkimus paljasti huomattavan suorituskykyeron Doubly Linked Listin ja taulukon välillä lajittelutoiminnossa, kun tietoja järjestettiin ID:n perusteella. Tuloksista käy ilmi, että taulukko suoriutui merkittävästi paremmin, suorittaen lajittelun noin 23.8 millisekunnissa, kun taas Doubly Linked Listin lajittelu vei noin 261433.8 millisekuntia. Näin suuri ero suorituskyvyssä johtuu useista keskeisistä tekijöistä.
+
+Ensinnäkin, taulukko tarjoaa jatkuvan muistialueen, mikä mahdollistaa tehokkaamman satunnaisen indeksoinnin ja nopeamman tiedon pääsyn. Toisaalta Doubly Linked Listin hajautuminen muistissa aiheuttaa enemmän välimuistin vääräkäyttöä ja hidastaa tiedon käsittelyä.
+
+Toiseksi, taulukon sisäinen järjestys antaa mahdollisuuden tehokkaampien lajittelualgoritmien käyttöön, kun taas Doubly Linked Listin solmujen siirtäminen ja linkkien päivittäminen tekee siitä haastavamman suoritusympäristön lajittelulle.
+
+Kolmanneksi, taulukko varaa yleensä yhtenäisen muistialueen, kun taas Doubly Linked Listin solmut hajautuvat muistiin, mikä voi johtaa enemmän muistin hajautumiseen ja hidastaa tiedon käsittelyä.
+
+### 3. Lisää keskelle ja poista keskeltä
 ```
 Testing insertion and deletion in the middle of a Doubly Linked List:
-Time taken for insertion: 3.0532079999999837 milliseconds
-Time taken for deletion: 2.954750000000047 milliseconds
+Time taken for insertion: 3.021167000000048 milliseconds
+Time taken for deletion: 2.893792000000019 milliseconds
+
 Testing insertion and deletion in the middle of an Array:
-Time taken for insertion: 2.611082999999951 milliseconds
-Time taken for deletion: 1.0215840000000185 milliseconds
-```
-6. Muuta pelleilyä
+Time taken for insertion: 2.8897499999999923 milliseconds
+Time taken for deletion: 1.048249999999996 milliseconds
 ```
 
+Tulosten perusteella voimme huomata, että Doubly Linked Listin ja taulukon (Array) välinen suorituskykyero insertion ja deletion operaatioissa keskellä rakennetta on kohtalaisen pieni, mutta silti merkittävä. Taulukko suoriutui hieman paremmin insertion operaatiosta, kun taas Doubly Linked List oli hieman nopeampi deletion operaatiossa.
+
+On mielenkiintoista huomata, että vaikka Doubly Linked Listin sisältämä insertion operaatio vaatii solmujen luomisen ja linkkien päivittämisen, se suoriutui silti kohtuullisen nopeasti. Tämä voi johtua siitä, että Doubly Linked Listin insertAt-metodi on tehokas toteutus, joka suoriutuu hyvin keskellä rakennetta tapahtuvista lisäyksistä.
+
+Toisaalta taulukon splice-metodi tarjoaa nopean tavan lisätä ja poistaa alkioita taulukon keskeltä. Koska taulukon elementit ovat peräkkäin muistissa, tämä mahdollistaa tehokkaamman operaation suorituksen insertion ja deletion tapauksissa.
+
+### 4. Lisää eteen ja poista ensimmäinen elementti
 ```
+Time taken for inserting at the beginning of Doubly Linked List: 10.086584000000016 milliseconds
+Time taken for inserting at the beginning of Array: 5089.696 milliseconds
+Time taken for removing from the beginning of Doubly Linked List: 8.762375000000247 milliseconds
+Time taken for removing from the beginning of Array: 116676.811166 milliseconds
+```
+
+
+Tulosten perusteella havaitsemme merkittävän suorituskykyeron Doubly Linked Listin ja taulukon (Array) välillä insertion ja removal operaatioissa rakenteen alusta.
+
+Alustamisoperaation osalta Doubly Linked List suoriutui huomattavasti nopeammin, kestäen vain noin 10.1 millisekuntia verrattuna taulukon noin 5090 millisekuntiin. Tämä johtuu todennäköisesti siitä, että Doubly Linked Listin prepend-operaatio on tehokkaampi rakenteen alusta lisäämisessä, sillä se ei vaadi uudelleenjärjestelyjä, kuten taulukon shift-operaatio.
+
+Sen sijaan removal operaation osalta Doubly Linked List suoriutui myös paremmin, kestäen noin 8.8 millisekuntia verrattuna taulukon noin 116677 millisekuntiin. Tämä ero voi johtua siitä, että Doubly Linked Listin removeAt-operaatio on tehokkaampi rakenteen alusta poistamisessa, kun taas taulukon shift-operaatio vaatii elementtien uudelleenjärjestelyä, mikä voi hidastaa suoritusta merkittävästi, erityisesti suurilla aineistoilla.
+
+Kokonaisuutena Doubly Linked List osoittautui merkittävästi paremmaksi vaihtoehdoksi insertion ja removal operaatioissa rakenteen alusta verrattuna taulukkoon. Tämä korostaa Doubly Linked Listin hyötyjä dynaamisissa sovelluksissa, joissa tarvitaan tehokasta lisäystä ja poistoa rakenteen alusta.
+
+### 5. Lisää viimeiseksi ja poista viimeinen elementti
+```
+Time taken for adding to Doubly Linked List: 23.317291999999952 milliseconds
+Time taken for adding to Array: 11.472375 milliseconds
+Time taken for deletion from Doubly Linked List: 47.57658299999997 milliseconds
+Time taken for deletion from Array: 11.102958000000001 milliseconds
+```
+
+Tulosten perusteella voimme havaita merkittävän suorituskykyeron Doubly Linked Listin ja taulukon (Array) välillä lisäys- ja poisto-operaatioissa.
+
+Alustusoperaation osalta taulukko suoriutui nopeammin, kestäen noin 11.5 millisekuntia verrattuna Doubly Linked Listin noin 23.3 millisekuntiin. Tämä voi johtua siitä, että taulukon spread operaatio on tehokas tapa kopioida taulukko, kun taas Doubly Linked Listin append operaatio vaatii solmujen luomista ja linkkien päivittämistä, mikä voi hidastaa suoritusta.
+
+Sen sijaan poisto-operaatiossa taulukko suoriutui huomattavasti nopeammin, kestäen noin 11.1 millisekuntia verrattuna Doubly Linked Listin noin 47.6 millisekuntiin. Tämä ero voi johtua siitä, että taulukon filter operaatio on tehokas tapa suodattaa taulukon alkioita, kun taas Doubly Linked Listin remove operaatio vaatii solmun etsimistä ja linkkien päivittämistä, mikä voi hidastaa suoritusta, erityisesti suurilla aineistoilla.
+
+Kokonaisuutena taulukko osoittautui paremmaksi vaihtoehdoksi lisäys- ja poisto-operaatioissa verrattuna Doubly Linked Listiin. Tämä voi olla merkittävä huomio sovellusten suunnittelussa, joissa on tarvetta tehokkaalle lisäykselle ja poistolle.
 
 # 5. Leetcode
 
