@@ -1096,7 +1096,40 @@ Ja poiston voi suorittaa jotenkin näin:
     hidas.next = hidas.next.next
 
     return head
+```
 
+### Toteutus
+```
+    function deleteMiddle(head: ListNode | null): ListNode | null {
+    
+    // Base case tilanteelle jossa lista on tyhjä
+    if (!head || !head.next) return null;
+
+    // määritellään pointterit
+    let slow = head;
+    let fast = head;
+
+    // siirretään nopeaa
+    fast = fast.next.next;
+
+    // niin kauan kuin nopea ei ole tyhjä niin hypitään eteenpäin
+    while (fast && fast.next){
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+
+    // kun olemme lopettaneet hyppimisen niin poistetaan linkki keskimmäisestä
+    slow.next = slow.next.next
+
+    // palautetaan muokattu lista
+    return head;
+};
+```
+
+### Tulokset
+
+```
+https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/submissions/1251682093/
 ```
 
 ## Odd even linked list
