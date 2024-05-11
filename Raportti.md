@@ -1458,7 +1458,8 @@ listan alusta ja lopusta
 - Aion myös tehdä syväkopion alkuperäisestä listasta, jotta emme muuta inputtia kun käännämme listaa tai kun käymme alkuperäistä ja käännettyä listaa läpi ja huom! tämäkään ei ole todellakaan tehokas tapa toteuttaa tätä tehtävää
 
     ### Pseudokoodi
-    ```
+    
+```
     Käännetään lista toisin päin käyttäen edellisen tehtävän funktiota
 
     function reverseList(head: ListNode | null): ListNode | null {
@@ -1505,7 +1506,7 @@ listan alusta ja lopusta
     // määritellään muuttuja, joka on alkuperäinen lista
     copied = deepCopyList(head)
     // määritellään muuttuja, joka on käännetyn listan pää eli kaksonen
-    twin = reverseList(head)
+    twin = reverseList(copied)
 
     while (head ja twin eivät ole tyhjiä){
         max = Math.max(max, head solmun arvo + twin solmun arvo)
@@ -1516,12 +1517,11 @@ listan alusta ja lopusta
 
     // palautetaan summa
     return max
-    ```
+```
 
 ### Toteutus
 
-    ```
-
+ ```
 function reverseList(head: ListNode | null): ListNode | null {
     let curr = head;
     let prev = null;
@@ -1571,7 +1571,7 @@ function pairSum(head: ListNode | null): number {
 
     return max;
 }
-    ```
+ ```
 
 ### Tulokset
 
