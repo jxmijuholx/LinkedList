@@ -1129,10 +1129,148 @@ Ja poiston voi suorittaa jotenkin näin:
 ### Tulokset
 
 ```
-https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/submissions/1251682093/
+https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/submissions/1251682093/ 
 ```
 
 ## Odd even linked list
+
+```
+Given the head of a singly linked list, group all the nodes with odd indices together followed by the nodes with even indices, and return the reordered list.
+
+The first node is considered odd, and the second node is even, and so on.
+
+Note that the relative order inside both the even and odd groups should remain as it was in the input.
+
+You must solve the problem in O(1) extra space complexity and O(n) time complexity.
+
+Example 1:
+
+Input: head = [1,2,3,4,5]
+Output: [1,3,5,2,4]
+Example 2:
+
+Example 2:
+
+Input: head = [2,1,3,5,6,4,7]
+Output: [2,3,6,7,1,5,4]
+ 
+
+Constraints:
+
+The number of nodes in the linked list is in the range [0, 104].
+-106 <= Node.val <= 106
+
+```
+
+### Brainstorm
+
+- Tämä pulma on mielestäni jo huomattavasti hankalampi ymmärtää kuin edellinen, mutta tämäkään ei ole kovin kaukana yksinkertaisesta ottaen huomioon linkitetyn listan luonnon.
+- Haluamme järjestää siis linkitetty lista siten, että parittomat indeksit ovat ensin ja parilliset indeksit toiseksi
+- Lähestytään ongelmaa siten, että haluamme luoda kaksi listaa -> yksi parittomille ja toinen parillisille ja sitten lopuksi yhdistämme ne yhdeksis listaksi
+- Rakennetaan siis algoritmi joka vaihtaa elementtejä keskenään siten, että parittoman seuraava on parillinen ja parillisen seuraava on pariton ja näillä tiedoilla suoritamme vaihdon
+
+- Otetaan esimerkiksi jo ylempänä mainittu lista [1, 2, 3, 4 , 5]
+- Haluamme asettaa parittoman ensimmäiseen elementtiin (1) ja parillisen toiseen elementtiin (2)
+```
+Visualisoidaan, miten voisimme käydä läpi listaa
+  
+  alkuperäinen lista: 1 -> 2 -> 3 -> 4 -> 5 -> null
+
+    alkuperäinen lista: 1 -> 2 -> 3 -> 4 -> 5 -> null
+                        ^    ^
+                        |    |
+                        odd  even
+
+    alkuperäinen lista: 1 -> 3 -> 2 -> 4 -> 5 -> null
+                             ^    ^
+                             |    |
+                             odd  even
+
+    alkuperäinen lista: 1 -> 3 -> 5 -> 2 -> 4 -> null
+                                        ^    ^
+                                        |    |
+                                        odd  even
+
+    alkuperäinen lista: 1 -> 3 -> 5 -> 2 -> 4 -> null
+                                             ^    ^
+                                             |    |
+                                             odd  even
+
+    alkuperäinen lista: 1 -> 3 -> 5 -> 2 -> 4 -> null
+                                                  ^    ^
+                                                  |    |
+                                                  odd  even
+```
+
+### Pseudokoodi
+
+```
+    1. Funktio alkaa tarkistamalla, onko listan pää tyhjä. Jos näin on, se palauttaa pään välittömästi, ilmoittaen listan olevan tyhjä eikä uudelleenjärjestelyä tarvita.
+
+    if (head === null || head.next === null) {
+        return head;
+    } 
+
+   2. Muuttuja odd asetetaan osoittamaan listan päähän, ensimmäiseen solmuun.
+    even asetetaan myös osoittamaan seuraavaan solmuun, ja sitä käytetään kulkemaan parillisten solmuje läpi.
+    apumuuttuja asetetaan osoittamaan seuraavaan solmuun, joka tulee olemaan parillisten solmujen alku. Tätä tarvitaan siis säilyttämään ensimmäisen evenin arvo, jotta voimme lopussa yhdistää parittomien ja parillisten listat.
+
+    let odd = head;
+    let even = head.next;
+    let temp = even;
+
+    3. Uudellenjärjestely
+
+    While (even ja evenin seuraava ei ole tyhjiä ) eli emme ole vielä listan lopussa{
+
+      //  asetetaan odd.next osoittamaan seuraavaan parittomaan solmuun jotta ylitämme parillisen solmun
+        odd.next = even.next
+    // asetetaan odd osoittamaan seuraavaan solmuun
+        odd = odd.next
+    // even.next asetetaan osoittamaan seuraavaan parilliseen solmuun ja ylitämme parittoman solmun
+    even.next = odd.next
+    // asetetaan even osoittamaan evenin seuraavaan
+        even = even.next
+        
+    }
+
+     4. Parittomien ja parillisten alilistojen yhdistäminen
+     Kun kaikki solmut on käsitelty, viimeinen solmu parittomien alilistassa (odd.next) linkitetään ensimmäiseen solmuun parillisten alilistassa (evenHead), tehden näin kahden alilistan yhdistämisen.
+    odd.next = temp;
+
+    5. Palautus
+    Funktio palauttaa pään, joka nyt osoittaa uudelleenjärjestettyyn listaan, jossa parittomat solmut seuraavat parillisia solmuja, säilyttäen niiden alkuperäisen suhteellisen järjestyksen kummassakin ryhmässä.
+    return head
+```
+
+### Toteutus
+
+```
+function oddEvenList(head: ListNode | null): ListNode | null {
+
+    if (head === null || head.next === null) {
+        return head;
+    } 
+
+    let odd = head;
+    let even = head.next;
+    let temp = even;
+    while (even && even.next){
+        odd.next = even.next;
+        odd = odd.next;
+        even.next = odd.next;
+        even = even.next;
+    }
+    odd.next = temp;
+    return head;
+};
+```
+
+### Tulokset
+
+````
+https://leetcode.com/problems/odd-even-linked-list/submissions/1255247176/?envType=study-plan-v2&envId=leetcode-75
+```
 
 ## Reverse linked list
 
