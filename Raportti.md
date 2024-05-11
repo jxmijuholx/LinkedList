@@ -1392,9 +1392,10 @@ function reverseList(head: ListNode | null): ListNode | null {
 ```
 
 ### Tulokset
-````
+```
 https://leetcode.com/problems/reverse-linked-list/submissions/1255382277/?envType=study-plan-v2&envId=leetcode-75 
 ```
+
 ## Maximum twin sum of linked list
 
 ```
@@ -1458,7 +1459,7 @@ listan alusta ja lopusta
 - Aion myös tehdä syväkopion alkuperäisestä listasta, jotta emme muuta inputtia kun käännämme listaa tai kun käymme alkuperäistä ja käännettyä listaa läpi ja huom! tämäkään ei ole todellakaan tehokas tapa toteuttaa tätä tehtävää
 
     ### Pseudokoodi
-    
+
 ```
     Käännetään lista toisin päin käyttäen edellisen tehtävän funktiota
 
