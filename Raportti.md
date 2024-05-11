@@ -1273,7 +1273,310 @@ https://leetcode.com/problems/odd-even-linked-list/submissions/1255247176/?envTy
 
 ## Reverse linked list
 
+```
+Given the head of a singly linked list, reverse the list, and return the reversed list.
+
+
+Example 1:
+
+
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+Example 2:
+
+
+Input: head = [1,2]
+Output: [2,1]
+Example 3:
+
+Input: head = []
+Output: []
+ 
+
+Constraints:
+
+The number of nodes in the list is the range [0, 5000].
+-5000 <= Node.val <= 5000
+```
+
+### Brainstorm
+
+- Tämä tehtävä on aika yksinkertainen
+- Meille annetaan linkitetyn listan pää ja meidän pitää palauttaa lista käännettynä toisinpäin
+- Tämän voi tehdä siten, että käymme läpi listan ja joka kierroksella:
+    1. Tallennetaan seuraavan solmun osoite
+    2. Käännetään nykyisen solmun pointterin suunta osoittamaan edellistä solmua
+    3. Siirrytään seuraavaan solmuun ja tehdään sama
+- Kun olemme siirtyneet listan loppuun alkuperäisestä head -solmusta tulee viimeinen solmu
+- Ja sitten vain palautetaan viimeisen solmun osoite, joka on nyt käännetyn listan pää eli head
+
+```
+Visualisoidaan tämä:
+
+Alkuperäinen lista:
+1 -> 2 -> 3 -> 4 -> 5
+
+1.  Vaihdetaan ensimmäisen solmun osoittimen suunta
+↓
+1 <- 2 -> 3 -> 4 -> 5
+
+
+2. Vaihdetaan toisen solmun osoittimen suunta
+↓
+1 <- 2 <- 3 -> 4 -> 5
+
+3. Vaihdetaan kolmannen solmun osoittimen suunta
+↓
+1 <- 2 <- 3 <- 4 -> 5
+
+4. Vaihdetaan neljännen solmun osoittimen suunta
+↓
+1 <- 2 <- 3 <- 4 <- 5
+
+5. Vaihdetaan viidennen solmun osoittimen suunta ja asetetaan pää viimeiseen solmuun eli numeroon 5
+↓
+1 <- 2 <- 3 <- 4 <- 5
+                    ↑
+```
+
+### Pseudokoodi
+
+```
+    1. Sama kuin aina; tarkastetaan onko listan pää tai pään seuraava tyhjä
+
+    2. Asetetaan kaksi muuttujaa; nykyinen ja edellinen
+    let curr = head;
+    let prev = null;
+    Laitetaan nykyinen listan päähän ja edellinen nulliksi, koska emme vielä tiedä mikä se on
+
+    3. Käydään läpi lista ja käännetään solmut 
+    while (nykyinen ei ole tyhjä){
+        // määritellään muuttuja seuraavalle loopin sisässä, jotta joka loopilla on oma next -muuttuja
+        // Asetetaan sille arvoksi nykyisen seuraava, aika loogista
+        const seuraava = curr.next;
+
+        // sitten asetetaan nykyisen muuttujan seuraava osoittamaan toiseen suuntaan eli
+        // asetetaan se muuttujaan prev
+        curr.next = prev
+
+        // asetetaan prev nykyiseksi ja nykyinen seuraavaan, jotta pääsemme listassa eteenpäin
+        prev = curr;
+        curr = next;
+    }
+
+    4. Ja lopuksi palautetaan käännetyn listan pää eli prev
+    Jos palauttaisimme headin niinkuin yleensä niin se palauttaisi käännetyn listan viimeisen elementin
+    Tämä siksi koska muutimme vain pointtereiden suuntaa
+    
+    return prev;
+```
+
+### Toteutus
+```
+function reverseList(head: ListNode | null): ListNode | null {
+    
+    if (head === null || head.next === null) return head;
+
+    let curr = head;
+    let prev = null;
+
+    while (curr !== null){
+        const next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    return prev
+};
+```
+
+### Tulokset
+````
+https://leetcode.com/problems/reverse-linked-list/submissions/1255382277/?envType=study-plan-v2&envId=leetcode-75 
+```
 ## Maximum twin sum of linked list
 
+```
+In a linked list of size n, where n is even, the ith node (0-indexed) of the linked list is known as the twin of the (n-1-i)th node, if 0 <= i <= (n / 2) - 1.
+
+For example, if n = 4, then node 0 is the twin of node 3, and node 1 is the twin of node 2. These are the only nodes with twins for n = 4.
+The twin sum is defined as the sum of a node and its twin.
+
+Given the head of a linked list with even length, return the maximum twin sum of the linked list.
+
+Example 1:
+
+Input: head = [5,4,2,1]
+Output: 6
+Explanation:
+Nodes 0 and 1 are the twins of nodes 3 and 2, respectively. All have twin sum = 6.
+There are no other nodes with twins in the linked list.
+Thus, the maximum twin sum of the linked list is 6. 
+Example 2:
+
+Input: head = [4,2,2,3]
+Output: 7
+Explanation:
+The nodes with twins present in this linked list are:
+- Node 0 is the twin of node 3 having a twin sum of 4 + 3 = 7.
+- Node 1 is the twin of node 2 having a twin sum of 2 + 2 = 4.
+Thus, the maximum twin sum of the linked list is max(7, 4) = 7.
+
+Example 3:
+
+Input: head = [1,100000]
+Output: 100001
+Explanation:
+There is only one node with a twin in the linked list having twin sum of 1 + 100000 = 100001.
+
+Constraints:
+
+The number of nodes in the list is an even integer in the range [2, 105].
+1 <= Node.val <= 105
+````
+
+### Brainstorm
+
+- Tämä tehtävä onkin jo huomattavasti monimutkaisempi
+- Objektiivina on löytää linkitetyn listan suurin mahdollinen "kaksossolmujen" summa
+- Jokaisella solmulla on twin eli kaksonen, mikä tarkoittaa solmua, joka on samalla etäisyydellä
+listan alusta ja lopusta
+- Yksinkertaisesti: 
+    listan 1. solmun kaksonen on listan viimeinen solmu
+    listan 2. solmun pari on listan toiseksi viimeinen solmu
+    listan 3. solmun pari on listan kolmanneksi viimeinen solmu
+    ja niin edelleen
+    Ja koska me tiedämme, että meillä on parillinen määrä solmuja
+    -> voimme väittää, että keskimmäiset solmut ovat kaksosia
+- Meidän pitää siis löytää SUURIN kaksosten yhteenlaskettu summa
+- Tämä tehtävä vaatii jo sen verran brain poweria, että en osaa tehdä tätä parhaimmalla tavalla
+- Mutta ajattelen, että tämän voisi toteuttaa näin:
+    1. Käännetään linkitetty lista toisin päin niin saamme kätevästi viimeisen solmun ensimmäiseksi jne.
+    2. Käydään molemmat listat läpi (tämä ei ole kovin tehokasta btw)
+    3. Etsitään suurin mahdollinen summa kaksossolmujen välillä
+- Aion myös tehdä syväkopion alkuperäisestä listasta, jotta emme muuta inputtia kun käännämme listaa tai kun käymme alkuperäistä ja käännettyä listaa läpi ja huom! tämäkään ei ole todellakaan tehokas tapa toteuttaa tätä tehtävää
+
+    ### Pseudokoodi
+    ```
+    Käännetään lista toisin päin käyttäen edellisen tehtävän funktiota
+
+    function reverseList(head: ListNode | null): ListNode | null {
+    
+    if (head === null || head.next === null) return head;
+
+    let curr = head;
+    let prev = null;
+
+    while (curr !== null){
+        const next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    return prev
+};
+
+    Tehdään funktio syväkopiolle:
+
+    function deepCopyList(head: ListNode | null): ListNode | null {
+    if (head === null) return null;
+
+    let newHead = new ListNode(head.val);
+    let current = head.next;
+    let newCurrent = newHead;
+
+    while (current !== null) {
+        newCurrent.next = new ListNode(current.val);
+        current = current.next;
+        newCurrent = newCurrent.next;
+    }
+
+    return newHead;
+}
+
+    Sitten tehdään funktio tuloksen löytämiseen:
+
+    max = 0;
+    // määritellään muuttuja, joka on listan pää
+    head = head;
+
+    // määritellään muuttuja, joka on alkuperäinen lista
+    copied = deepCopyList(head)
+    // määritellään muuttuja, joka on käännetyn listan pää eli kaksonen
+    twin = reverseList(head)
+
+    while (head ja twin eivät ole tyhjiä){
+        max = Math.max(max, head solmun arvo + twin solmun arvo)
+        // siirrytään listoissa eteenpäin, jotta löydetään suurin arvo
+        head = head.next
+        twin = twin.next
+    }
+
+    // palautetaan summa
+    return max
+    ```
+
+### Toteutus
+
+    ```
+
+function reverseList(head: ListNode | null): ListNode | null {
+    let curr = head;
+    let prev = null;
+
+    while (curr !== null) {
+        const next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    return prev;
+}
+
+function deepCopyList(head: ListNode | null): ListNode | null {
+    if (head === null) return null;
+
+    let newHead = new ListNode(head.val);
+    let current = head.next;
+    let newCurrent = newHead;
+
+    while (current !== null) {
+        newCurrent.next = new ListNode(current.val);
+        current = current.next;
+        newCurrent = newCurrent.next;
+    }
+
+    return newHead;
+}
+
+function pairSum(head: ListNode | null): number {
+    if (head === null || head.next === null) return 0;
+    let copiedHead = deepCopyList(head);
+    // käytetään syväkopioitua päätä käännettävään listaan, jotta emme muuta muistissa vahingossa
+    // alkuperäisen listan arvoja
+    let reversed = reverseList(copiedHead);
+
+    let headOfOriginalList = head;
+    let headOfReversedList = reversed;
+    let max = 0;
+
+    while (headOfOriginalList !== null && headOfReversedList !== null) {
+        max = Math.max(max, headOfOriginalList.val + headOfReversedList.val);
+        headOfOriginalList = headOfOriginalList.next;
+        headOfReversedList = headOfReversedList.next;
+    }
+
+    return max;
+}
+    ```
+
+### Tulokset
+
+```
+https://leetcode.com/problems/maximum-twin-sum-of-a-linked-list/submissions/1255447238/?envType=study-plan-v2&envId=leetcode-75 
+```
 # 6. Lähteet
 
