@@ -1581,3 +1581,12 @@ https://leetcode.com/problems/maximum-twin-sum-of-a-linked-list/submissions/1255
 ```
 # 6. Lähteet
 
+https://www.geeksforgeeks.org/introduction-to-linked-list-data-structure-and-algorithm-tutorial/ 
+
+https://www.geeksforgeeks.org/linked-list-vs-array/?ref=lbp
+
+https://www.freecodecamp.org/news/how-linked-lists-work/
+
+https://www.youtube.com/watch?v=N6dOwBde7-M&t=662s
+
+https://www.youtube.com/watch?v=Hj_rA0dhr2I
